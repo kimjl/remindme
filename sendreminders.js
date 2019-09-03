@@ -1,9 +1,9 @@
 // Twilio Account SID
-var twilioAccountSid = 'YOURSID'
+var twilioAccountSid = 'twilioAccountSid'
 // Twilio Auth Token
-var twilioAuthToken = 'YOURTOKEN'
+var twilioAuthToken = 'twilioAuthToken'
 // Twilio phone number to send SMS from.
-var twilioNumber = 'YOURNUMBER'
+var twilioNumber = 'twilioNumber'
 // Set to how frequently the queue should be checked.
 var frequencyMilliseconds = 10000;
 // Mongo DB server address
@@ -19,46 +19,62 @@ mongoose.connect(mongooseServerAddress);
 var Reminder = mongoose.model('Reminder', {
     text: String,
     time: Number,
-    phonenumber: String
+    phonenumber: String,
+    blocked: String
 });
 
-setInterval(function()
-{
-	var timeNow = new Date();
-	console.log(Math.floor(timeNow.getTime()));
+// Reminder.findOneAndDelete({blocked: '+17034894857'})
+// Reminder.remove({blocked: '+17034894857'})
+// Reminder.blocked = '+17033995053'
+// Reminder.create({blocked: '+17033995053'})
 
-	// Find any reminders that have already passed, process them, and remove them from the queue.
-	Reminder.find({"time": {$lt: Math.floor(timeNow.getTime())}}, function(err, reminders)
-	{
-		if(err)	{
-			console.log(err);
-			return;
-		}
+Reminder.findOneAndUpdate({blocked: '+xxxxxxxxxx'});
+// Check if the number is blocked, if so don't send the message
+Reminder.findOne({blocked: '+xxxxxxxxxx'}, function(error, exist) {
+  //Number exists so we block
+  if (exist && !error){
+    console.log('The Number exists so dont send message')
+  } else {
+    //Number doesn't exist so we proceed
+    setInterval(function()
+    {
+      var timeNow = new Date();
+      console.log(Math.floor(timeNow.getTime()));
 
-		if(reminders.length == 0)
-		{
-			console.log('no messages to be sent');
-			return;
-		}
+      // Find any reminders that have already passed, process them, and remove them from the queue.
+      Reminder.find({"time": {$lt: Math.floor(timeNow.getTime())}}, function(err, reminders)
+      {
+        if(err)	{
+          console.log(err);
+          return;
+        }
 
-		reminders.forEach(function(message)
-		{
-			client.messages.create({
-			    body: message.text,
-			    to: "+1"+message.phonenumber,
-			    from: "+1"+twilioNumber
-			}, function(err, sms) {
-				if(err)
-					console.log(err);
+        if(reminders.length == 0)
+        {
+          console.log('no messages to be sent');
+          return;
+        }
 
-				console.log('sending '+message.text+' to '+message.phonenumber);
-			    process.stdout.write(sms.sid);
-			});
+        reminders.forEach(function(message)
+        {
+          client.messages.create({
+              body: message.text,
+              to: "+1"+message.phonenumber,
+              from: "+1"+twilioNumber
+          }, function(err, sms) {
+            if(err)
+              console.log(err);
 
-			Reminder.remove({_id: message._id}, function(err)
-			{
-				console.log(err)
-			});
-		});
-	});
-}, frequencyMilliseconds);
+            console.log('sending '+message.text+' to '+message.phonenumber);
+              process.stdout.write(sms.sid);
+          });
+
+          Reminder.remove({_id: message._id}, function(err)
+          {
+            console.log(err)
+          });
+        });
+      });
+    }, frequencyMilliseconds);
+  }
+});

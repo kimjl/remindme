@@ -16,7 +16,8 @@ mongoose.connect(mongooseServerAddress);
 var Reminder = mongoose.model('Reminder', {
     text: String,
     time: Number,
-    phonenumber: String
+    phonenumber: String,
+    blocked: String
 });
 
 // Returns reminders associated with the given phone number.
@@ -54,5 +55,6 @@ app.post('/api/reminders/remove', function(req, res) {
         res.send(err);
 	});
 });
+
 
 app.use(express.static(__dirname + '/public'));
