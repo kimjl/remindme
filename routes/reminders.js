@@ -1,28 +1,6 @@
-// Filename: server.js
-var mongooseServerAddress = 'mongodb://127.0.0.1:27017/test';
-
-var express = require('express'),
-	app = express(),
-	bodyParser = require('body-parser'),
-	mongoose = require('mongoose');
-
-// var reminderRoutes = require('./routes/reminders');
-
-app.use(bodyParser.json());
-app.listen(3000);
-
-console.log('App listening on port 3000');
-
-mongoose.connect(mongooseServerAddress);
-
-// app.use('/', reminderRoutes);
-
-var Reminder = mongoose.model('Reminder', {
-	text: String,
-	time: Number,
-	phonenumber: String,
-	blocked: String
-});
+var express = require('express');
+var router = express.Router();
+var Reminder = require('../models/reminder');
 
 // Returns reminders associated with the given phone number.
 app.get('/api/reminders', function(req, res) {
@@ -60,4 +38,4 @@ app.post('/api/reminders/remove', function(req, res) {
 	});
 });
 
-app.use(express.static(__dirname + '/public'));
+module.exports = router;
