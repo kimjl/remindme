@@ -1,9 +1,9 @@
 // Twilio Account SID
-var twilioAccountSid = 'AC4ccf6c80239fa4bf0ca353b8ba265c31';
+var twilioAccountSid = 'SID';
 // Twilio Auth Token
-var twilioAuthToken = '9ef8f9bd1f010ec767cf3274e59b2895';
+var twilioAuthToken = 'TOKEN';
 // Twilio phone number to send SMS from.
-var twilioNumber = '2405466773';
+var twilioNumber = 'NUM';
 // Set to how frequently the queue should be checked.
 var frequencyMilliseconds = 10000;
 // Mongo DB server address
