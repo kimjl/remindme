@@ -1,35 +1,47 @@
+body .ui-body-c {
+	font-family: 'Roboto', sans-serif;
+	font-size: 18px;
+}
 .ui-page {
-	background: #ffefba; /* fallback for old browsers */
-	background: -webkit-linear-gradient(to bottom, #ffffff, #ffefba); /* Chrome 10-25, Safari 5.1-6 */
-	background: linear-gradient(
-		to bottom,
-		#ffffff,
-		#ffefba
-	); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	background-color: #485461;
+	background-image: linear-gradient(315deg, #485461 0%, #28313b 74%);
 }
 .phone-input {
+	color: white;
 	margin: auto;
 	width: 60%;
 	padding: 10px;
 }
 .phone-input h3 {
+	color: white;
 	text-align: center;
 }
 .reminder-list {
+	color: white;
 	margin: auto;
 	width: 60%;
 	padding: 10px;
 }
 .reminder-list h3 {
+	color: white;
 	text-align: center;
 }
 .make-reminder {
+	color: white;
 	margin: auto;
 	width: 60%;
 	padding: 10px;
 }
 .contact {
+	color: white;
 	position: absolute;
 	display: inline-block;
 	text-align: right;
+}
+.instruction {
+	color: white;
+	padding-top: 10px;
+	text-align: center;
+	align-items: center;
+	list-style-position: inside;
 }
